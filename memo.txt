@@ -1,0 +1,99 @@
+\\\\\\\\\\\\\\\\\\\\\\n
+
+|||||||||||||||||||||||
+
+//Main
+import java.util.*;
+public class bj2851 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		sc.close();
+	}
+}
+
+//Solution
+import java.util.*;
+public class swea9370 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int tc=1;tc<=t;tc++) {
+			
+			System.out.printf("#%d %d%n",tc,tc);
+		}
+		sc.close();
+	}
+}
+
+/////////////사방탐색//////////////////
+static boolean isIn(int i, int j, int y, int x) {
+	if(i>=0 && j>=0 && i<y && j<x) {return true;}
+	return false;
+}
+
+static int[][] d= {
+			{0,1},
+			{0,-1},
+			{1,0},
+			{-1,0}
+};
+	
+static void dfs(int i, int j) {
+		map[i][j] = false;
+		int ni, nj;
+		for(int k=0; k<4; k++) {
+			ni = i+d[k][0];
+			nj = j+d[k][1];
+			
+			if(isIn(ni,nj,y,x) && map[ni][nj]) dfs(ni,nj);
+		}
+}
+////////////////////////////////////////
+
+//////////////////역순정렬//////////////
+Integer[] arr = new Integer[n];
+Arrays.sort(arr, Comparator.reverseOrder());
+///////////////////////////////////////
+
+
+
+/////////유니온 파인드////////////////
+	static int[] arr;
+
+	static void makeSet(int[] arr) {
+		for(int i=0;i<arr.length;i++) arr[i]=i;
+	}
+	static int findSet(int x) {
+		if (x == arr[x]) {
+			return x;
+		}
+		else {
+			return findSet(arr[x]);
+		}
+	}
+	static void union(int x, int y) {
+		if(x<y) { //더 큰수가 항상 부모가 된다
+			int tmp=x;
+			x=y;
+			y=tmp;
+		}
+		
+		int xParent = findSet(x);
+		int yParent = findSet(y);
+		
+		if(xParent != yParent) {
+			arr[y] = xParent;
+		}
+	}
+////////////////////////////////////////
+
+/////////////////comparator////////////////
+Comparator<Employee> salesComparator = new Comparator<Employee>() {
+@Override
+public int compare(Employee o1, Employee o2) {
+    return o2.getSales().intValue() - o1.getSales().intValue();
+}
+};
+Collections.sort(list,salesComparator);
+///////////////////////////////////////////
