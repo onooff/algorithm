@@ -1,4 +1,6 @@
-input = input().split()
-n = input[0]
-m = input[1]
-tree = input().split()
+'''
+첫줄에 N,M 초기연료
+다음부터 NM Map
+운전시작하는 좌표(행,열)
+승객출발지(행,열) 승객도착지(행,열)
+'''
