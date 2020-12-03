@@ -1,4 +1,3 @@
-t(n, m, oil)
-# print(board)
-# print(tj, ti)
-# print
+
+        while True:
+            if tmp[i-idx].isdigit():
