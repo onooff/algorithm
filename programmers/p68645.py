@@ -1,12 +1,27 @@
 def solution(n):
-    size = sum(range(1, n+1))
-    ret = [0]*size
-    index = 0
-    memo = 0
-    for i in range(1, size+1):
-        ret[index] = i
-        index += i
-    return size
+    answer = []
+
+    tmp = []
+    for i in range(1, n+1):
+        tmp.append([1]*i)
+
+    count = 1
+    for j in range(n//2):
+        for i in range(j*2, n-1-j):
+            tmp[i][j] = count
+            count += 1
+        for i in range(j, n-j*2):
+            tmp[n-1-j][i] = count
+            count += 1
+        for i in range(n-2-j, j*2, -1):
+            tmp[i][i-j] = count
+            count += 1
+    # print(tmp)
+    for i in range(len(tmp)):
+        for j in range(len(tmp[i])):
+            answer.append(tmp[i][j])
+
+    return answer
 
 
-print(solution(5))
+print(solution(1))
