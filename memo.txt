@@ -101,5 +101,8 @@ Collections.sort(list,salesComparator);
 
 
 ////////////////파이썬//////////////////////
+입력받기 예제
+a, b = map(int, input().split())
+
 문자열 배열 길이순 정렬 https://infinitt.tistory.com/122
 list.sort(key=lambda x:len(x))
