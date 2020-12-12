@@ -106,3 +106,17 @@ a, b = map(int, input().split())
 
 문자열 배열 길이순 정렬 https://infinitt.tistory.com/122
 list.sort(key=lambda x:len(x))
+
+int를 n진수로 변환
+def convert(n, base):
+    T = "0123456789ABCDEF"
+    q, r = divmod(n, base)
+    if q == 0:
+        return T[r]
+    else:
+        return convert(q, base) + T[r]
+
+n진수를 10진수 int로
+num = '3212'
+base = 5
+answer = int(num, base)
