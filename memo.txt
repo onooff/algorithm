@@ -101,8 +101,16 @@ Collections.sort(list,salesComparator);
 
 
 ////////////////파이썬//////////////////////
+t = int(input())
+for tc in range(1, t+1):
+    ans = 0
+
+    print('#', tc, ' ', ans, sep='')
+
+
 입력받기 예제
 a, b = map(int, input().split())
+b = list(map(int, input().split()))
 
 문자열 배열 길이순 정렬 https://infinitt.tistory.com/122
 list.sort(key=lambda x:len(x))
