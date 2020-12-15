@@ -128,3 +128,8 @@ n진수를 10진수 int로
 num = '3212'
 base = 5
 answer = int(num, base)
+
+리스트 합쳐서 문자열로
+a = ['h', 'e', 'l', 'l', 'o']
+print(''.join(a)) # => 'hello'
+print('-'.join(a)) # => 'h-e-l-l-o'
