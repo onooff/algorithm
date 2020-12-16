@@ -1,87 +1,108 @@
+
 //Main
 import java.util.*;
+
 public class bj16236 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		int mapSize = sc.nextInt();
+		int[][] map = new int[mapSize][mapSize];
+		boolean[][] chk = new boolean[mapSize][mapSize];
+		int[] fishes = new int[7];
 
-		int n = sc.nextInt();
-		int[][] map = new int[n][n];
-		boolean[][] chk = new boolean[n][n];
-		int babyShark = 2;
-		Queue<v> q = new LinkedList<v>();
-		int[] fish = new int[6+1];
-
-		for(int i=0;i<n;i++) {
-			for(int j=0;j<n;j++) {
+		PriorityQueue<v> bfs = new PriorityQueue<>();
+		for (int i = 0; i < mapSize; i++) {
+			for (int j = 0; j < mapSize; j++) {
 				map[i][j] = sc.nextInt();
-				if(map[i][j]==9) {chk[i][j]=true; q.offer(new v(i,j,0)); map[i][j]=0;}
-				else if(map[i][j]!=0) fish[map[i][j]]++;
-			}
-		}
-
-		if(fish[1]==0) {System.out.println('0'); sc.close(); return;}
-
-		v tmp;
-		int ni,nj,sum=0,growCnt=2;
-		while(!q.isEmpty()) {			
-			tmp = q.poll();
-			if(map[tmp.i][tmp.j]!=0 && babyShark>map[tmp.i][tmp.j]) {
-				System.out.println("옴뇸뇸 i="+tmp.i+" j="+tmp.j+" d="+tmp.d+" sum="+sum+" shark="+babyShark+" getFish="+map[tmp.i][tmp.j]);
-				fish[map[tmp.i][tmp.j]]--;
-				map[tmp.i][tmp.j]=0;
-				sum+=tmp.d;
-				growCnt--;
-				if(growCnt==0) {babyShark++; growCnt=babyShark;}
-
-				boolean flag=false;
-				for(int i=1;i<(babyShark>7? 7:babyShark);i++) {
-					if(fish[i]>0) {flag=true; break;}
-				}
-
-				if(flag) {
-					q.clear();
-					chk = new boolean[n][n];
-					chk[tmp.i][tmp.j]=true;
-					q.offer(new v(tmp.i,tmp.j,0));
-					continue;
-				}
-				else break;
-			}
-
-			for(int i=0;i<4;i++) {
-				ni=tmp.i+d[i][0];
-				nj=tmp.j+d[i][1];
-				if(isIn(ni,nj,n,n)&&babyShark>=map[ni][nj]&&!chk[ni][nj]) {
-					chk[ni][nj]=true;
-					q.offer(new v(ni,nj,tmp.d+1));
+				if (map[i][j] == 9) {
+					bfs.offer(new v(i, j, 0));
+					chk[i][j] = true;
+					map[i][j] = 0;
+				} else if (map[i][j] != 0) {
+					fishes[map[i][j]]++;
 				}
 			}
 		}
+		int time = 0;
+		int mySize = 2;
+		int next = mySize;
+		int eatable = fishes[1];
+		int eatCnt = 0;
+		while (!bfs.isEmpty() && eatable != 0) {
+			v tmp = bfs.poll();
 
-		System.out.println(sum);
+			if (map[tmp.y][tmp.x] != 0 && map[tmp.y][tmp.x] < mySize) {
+				eatCnt++;
+				map[tmp.y][tmp.x] = 0;
+				time += tmp.d;
+				next--;
+				eatable--;
+				if (next == 0) {
+					mySize++;
+					next = mySize;
+					if (mySize < 8)
+						eatable += fishes[mySize - 1];
+				}
+
+				bfs.clear();
+				chk = new boolean[mapSize][mapSize];
+				bfs.offer(new v(tmp.y, tmp.x, 0));
+				chk[tmp.y][tmp.x] = true;
+//				System.out.println("eat:" + tmp.toString()+" eatable:"+eatable+" eatCnt:"+eatCnt+" size:"+mySize);
+				System.out.printf("(%d, %d) %d\n",tmp.y+1,tmp.x+1,eatCnt);
+				continue;
+			}
+
+			int nd = tmp.d + 1;
+			for (int i = 0; i < 4; i++) {
+				int ny = tmp.y + d[i][0];
+				int nx = tmp.x + d[i][1];
+				if (isIn(ny, nx, mapSize, mapSize) && !chk[ny][nx] && map[ny][nx] <= mySize) {
+					bfs.add(new v(ny, nx, nd));
+					chk[ny][nx] = true;
+				}
+			}
+		}
+		System.out.println(time);
 
 		sc.close();
 	}
-	static class v{
-		int i;
-		int j;
+
+	static class v implements Comparable<v> {
+		int y;
+		int x;
 		int d;
-		public v(int i, int j, int d) {
+
+		@Override
+		public int compareTo(v o) {
+			if (this.d > o.d)
+				return 1;
+			else if (this.d == o.d && this.y > o.y)
+				return 1;
+			else if (this.d == o.d && this.y == o.y && this.x > o.x)
+				return 1;
+			return -1;
+		}
+
+		public v(int y, int x, int d) {
 			super();
-			this.i = i;
-			this.j = j;
+			this.y = y;
+			this.x = x;
 			this.d = d;
 		}
+
+		@Override
+		public String toString() {
+			return "v [y=" + y + ", x=" + x + "]";
+		}
 	}
+
 	static boolean isIn(int i, int j, int y, int x) {
-		if(i>=0 && j>=0 && i<y && j<x) {return true;}
+		if (i >= 0 && j >= 0 && i < y && j < x) {
+			return true;
+		}
 		return false;
 	}
 
-	static int[][] d= {
-			{-1,0},
-			{0,-1},
-			{0,1},
-			{1,0}
-	};
+	static int[][] d = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
 }
