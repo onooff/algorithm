@@ -1,6 +1,6 @@
 # algorithm
 
-algorithm problem solving
+algorithm problem solving🤔
 
 ![BOJ](./.resource/boj.png)
 
