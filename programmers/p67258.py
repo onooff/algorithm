@@ -102,7 +102,7 @@ def solution(gems):
             if i-min_val < l:
                 l = i-min_val
                 ans = [min_val+1, i+1]
-            if l == len(gem_set)+1:
+            if l == len(gem_set)-1:
                 break
     return ans
 
