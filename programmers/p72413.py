@@ -1,5 +1,4 @@
 import heapq
-import copy
 
 
 def solution(n, s, a, b, fares):
@@ -13,26 +12,23 @@ def solution(n, s, a, b, fares):
         graph[f[1]].setdefault(f[0], f[2])
 
     inf = 999999999999999999
-    ab = [-1]
-    s_cost = list()
-    for i in range(1, n+1):
-        cost = [inf for i in range(n+1)]
-        cost[i] = 0
-        q = [(0, i)]
+    cost = [[inf for j in range(n+1)] for i in range(3)]
+    start = [a, b, s]
+    for i in range(3):
+        cost[i][start[i]] = 0
+        q = [(0, start[i])]
         while len(q) > 0:
             tmp = heapq.heappop(q)
             for nxt in graph[tmp[1]]:
-                if cost[nxt] > tmp[0]+graph[tmp[1]][nxt]:
-                    cost[nxt] = tmp[0]+graph[tmp[1]][nxt]
-                    heapq.heappush(q, (cost[nxt], nxt))
-        ab.append(cost[a]+cost[b])
-        if i == s:
-            s_cost = copy.deepcopy(cost)
+                if cost[i][nxt] > tmp[0]+graph[tmp[1]][nxt]:
+                    cost[i][nxt] = tmp[0]+graph[tmp[1]][nxt]
+                    heapq.heappush(q, (cost[i][nxt], nxt))
 
     ans = inf
     for i in range(1, n+1):
-        if s_cost[i]+ab[i] < ans:
-            ans = s_cost[i]+ab[i]
+        tmp = cost[0][i]+cost[1][i]+cost[2][i]
+        if tmp < ans:
+            ans = tmp
     return ans
 
 
