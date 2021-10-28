@@ -1,5 +1,4 @@
--- 코드를 입력하세요
-SELECT ANIMAL_ID
-FROM ANIMAL_INS
-WHERE NAME IS NOT NULL
-ORDER BY ANIMAL_ID
+select ANIMAL_ID, NAME
+from ANIMAL_INS
+where NAME like "%el%" and ANIMAL_TYPE = "Dog"
+order by NAME
