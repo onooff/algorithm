@@ -1,3 +1,54 @@
+import sys
+import math
+
+inputs = sys.stdin.readlines()
+n, m = map(int, inputs[0].split())
+board = list(map(lambda x: x.rstrip(), inputs[1:]))
+
+chk = [[math.inf for _ in range(m)] for _ in range(n)]
+
+q = [0]
+chk[0][0] = 1
+idx = 0
+d = ((1, 0), (-1, 0), (0, 1), (0, -1))
+walls = list()
+while idx < len(q):
+    cur = q[idx]
+    y = cur//m
+    x = cur % m
+    next_step = chk[y][x]+1
+    for nd in d:
+        ny = y+nd[0]
+        nx = x+nd[1]
+        if 0 <= ny < n and 0 <= nx < m and chk[ny][nx] > next_step:
+            chk[ny][nx] = next_step
+            nxt = ny*m+nx
+            if board[ny][nx] == '1':
+                walls.append(nxt)
+            else:
+                q.append(nxt)
+    idx += 1
+
+q = walls
+idx = 0
+while idx < len(q):
+    cur = q[idx]
+    y = cur//m
+    x = cur % m
+    next_step = chk[y][x]+1
+    for nd in d:
+        ny = y+nd[0]
+        nx = x+nd[1]
+        if 0 <= ny < n and 0 <= nx < m and chk[ny][nx] > next_step and board[ny][nx] == '0':
+            chk[ny][nx] = next_step
+            q.append(ny*m+nx)
+    idx += 1
+
+if chk[n-1][m-1] == math.inf:
+    chk[n-1][m-1] = -1
+print(chk[n-1][m-1])
+
+'''
 def isIn(i, j, n, m):
     return i >= 0 and j >= 0 and i < n and j < m
 
@@ -68,3 +119,4 @@ while len(bfs) > 0:
 
 
 print(ans)
+'''
