@@ -1,6 +1,7 @@
 a, b = map(int, input().split())
 
 
+# commit test
 def go(b, a, cnt):
     if b == a:
         return cnt
